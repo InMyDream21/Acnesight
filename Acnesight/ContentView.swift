@@ -91,12 +91,14 @@ struct ContentView: View {
     }
     
     func processImage(_ image: UIImage) {
-        guard let cgImage = image.cgImage else { return }
+        guard let letterboxed = letterboxImage(image),
+              let cgImage = letterboxed.cgImage else { return }
         
         do {
             let config = MLModelConfiguration()
-            let model = try AcneModel(configuration: config).model
+            let model = try best(configuration: config).model
             let vnModel = try VNCoreMLModel(for: model)
+            print(model.modelDescription.inputDescriptionsByName)
             
             let request = VNCoreMLRequest(model: vnModel) { req, error in
                 DispatchQueue.main.async {
@@ -121,5 +123,28 @@ struct ContentView: View {
         } catch {
             print("Model failed: \(error)")
         }
+    }
+    
+    func letterboxImage(_ image: UIImage, targetSize: CGSize = CGSize(width: 640, height: 640)) -> UIImage? {
+        let originalSize = image.size
+        let scale = min(targetSize.width / originalSize.width, targetSize.height / originalSize.height)
+
+        let resizedSize = CGSize(width: originalSize.width * scale, height: originalSize.height * scale)
+        let xOffset = (targetSize.width - resizedSize.width) / 2
+        let yOffset = (targetSize.height - resizedSize.height) / 2
+
+        UIGraphicsBeginImageContextWithOptions(targetSize, false, image.scale)
+
+        // Fill background (black padding)
+        UIColor.black.setFill()
+        UIRectFill(CGRect(origin: .zero, size: targetSize))
+
+        // Draw resized image centered
+        image.draw(in: CGRect(x: xOffset, y: yOffset, width: resizedSize.width, height: resizedSize.height))
+
+        let letterboxedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+
+        return letterboxedImage
     }
 }
