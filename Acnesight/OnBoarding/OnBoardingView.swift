@@ -58,12 +58,8 @@ struct OnBoardingView : View {
                         .padding(.vertical,8)
                 } else if viewModel.currentPage == 1 {
                     OnBoardingButton(text: "Get Started",onClick: {
-                        withAnimation(.snappy(duration: 0.3)){
-                            viewModel.onClick_GetStarted()
-                            router.GettingStarted()
-                        }
-                        
-                        
+                        viewModel.onClick_GetStarted()
+                        router.GettingStarted()
                     })
                         .padding(.vertical,8)
                 }
