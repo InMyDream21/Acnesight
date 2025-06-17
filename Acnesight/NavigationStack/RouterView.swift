@@ -9,6 +9,8 @@ import SwiftUI
 
 struct RouterView: View {
     @State private var router = Router()
+    @AppStorage("hasSeenOnboarding") var hasSeenOnboarding = false
+    
     
     private func routeView(for route:Route) -> some View {
         Group{
@@ -16,7 +18,7 @@ struct RouterView: View {
             case .home:
                 VStack{}
             case .onboarding:
-                VStack{}
+                OnBoardingView()
             case .capture:
                 VStack{}
             case .result(let resultInfo):
@@ -29,8 +31,15 @@ struct RouterView: View {
     }
     var body: some View {
         NavigationStack (path: $router.path){
-            VStack{} // ganti root
-//            HomeView()
+            Group {
+                if hasSeenOnboarding && !router.atGettingStarted {
+                    VStack{
+                        Color.red
+                    }
+                } else {
+                    OnBoardingView()
+                }
+            }
                 .environment(router)
                 .navigationDestination(for: Route.self) { route in
                     routeView(for: route)
@@ -39,6 +48,6 @@ struct RouterView: View {
     }
 }
 
-//#Preview {
-//    RouterView()
-//}
+#Preview {
+    RouterView()
+}

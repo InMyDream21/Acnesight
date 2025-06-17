@@ -13,6 +13,23 @@ import Observation
 class Router  {
     var path = NavigationPath()
     
+    private let defaults = UserDefaults.standard
+    var hasSeenOnBoarding: Bool {
+            get {
+                defaults.bool(forKey: "hasSeenOnboarding")
+            }
+            set {
+                defaults.set(newValue, forKey: "hasSeenOnboarding")
+            }
+        }
+    
+    var atGettingStarted : Bool = false
+    
+    func GettingStarted() {
+        hasSeenOnBoarding = true
+        atGettingStarted = true
+    }
+    
     func navigateToCapture() {
         path.append(Route.capture)
     }
@@ -26,12 +43,7 @@ class Router  {
     }
     
     func navigateToResult(image : UIImage) {
-        
         path.append(Route.result(ResultInfo(image: image)))
-    }
-    
-    func navigateToResultDetail () {
-        path.append(Route.resultDetail)
     }
     
     func navigateBack () {
