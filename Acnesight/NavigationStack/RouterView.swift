@@ -16,7 +16,7 @@ struct RouterView: View {
         Group{
             switch route {
             case .home:
-                VStack{}
+                HomeView()
             case .onboarding:
                 OnBoardingView()
             case .capture:
@@ -33,9 +33,7 @@ struct RouterView: View {
         NavigationStack (path: $router.path){
             Group {
                 if hasSeenOnboarding && !router.atGettingStarted {
-                    VStack{
-                        Color.red
-                    }
+                    HomeView()
                 } else {
                     OnBoardingView()
                 }
