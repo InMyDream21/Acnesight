@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "HomePageLogo.png",
+      "filename" : "image 20.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "HomePageLogo 1.png",
+      "filename" : "image 20@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "HomePageLogo 2.png",
+      "filename" : "image 20x3.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
