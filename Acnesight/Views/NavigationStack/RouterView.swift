@@ -25,6 +25,8 @@ struct RouterView: View {
                 VStack{}
             case .resultDetail:
                 VStack{}
+            case .gettingStarted:
+                GettingStartedView()
             }
         }
         .environment(router)
@@ -32,7 +34,7 @@ struct RouterView: View {
     var body: some View {
         NavigationStack (path: $router.path){
             Group {
-                if hasSeenOnboarding && !router.atGettingStarted {
+                if hasSeenOnboarding{
                     HomeView()
                 } else {
                     OnBoardingView()

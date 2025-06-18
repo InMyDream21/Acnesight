@@ -46,9 +46,16 @@ class Router  {
         path.append(Route.result(ResultInfo(image: image)))
     }
     
+    func navigateToGettingStarted(){
+        path.append(Route.gettingStarted)
+        hasSeenOnBoarding = true
+    }
+    
     func navigateBack () {
         path.removeLast()
     }
+    
+    
     
     func returnToRoot () {
         path = NavigationPath()
@@ -69,4 +76,5 @@ enum Route : Hashable, Equatable{
     case capture
     case result(ResultInfo)
     case resultDetail
+    case gettingStarted
 }

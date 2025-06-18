@@ -40,7 +40,6 @@ struct GettingStartedContent : View {
                             .foregroundStyle(Color("OliveGreen"))
                         Text(txt)
                             .font(.footnote)
-                        
                     }
                 }
             }
@@ -54,14 +53,14 @@ struct GettingStartedContent : View {
 }
 
 struct GettingStartedView: View {
+    @Environment(Router.self) var router
     var body: some View {
         ZStack{
             GettingStartedContent()
             OnBoardingButton(
                 text: "TAKE A SELFIE",
                 onClick: {
-                    //                    hasSeenOnboarding = true
-                    //                    router.navigateToCapture()
+                    router.navigateToCapture()
                 },isSecondary: true)
             .frame(maxHeight: .infinity,alignment: .bottom)
         }
@@ -73,4 +72,5 @@ struct GettingStartedView: View {
 
 #Preview {
     GettingStartedView()
+        .environment(Router())
 }
