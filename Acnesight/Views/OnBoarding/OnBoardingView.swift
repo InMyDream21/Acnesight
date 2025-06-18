@@ -22,7 +22,7 @@ struct OnBoardingView : View {
         UIPageControl.appearance().pageIndicatorTintColor = UIColor(Color("PageIndicator"))
     }
     var body: some View {
-        if viewModel.isGettingStarted {
+        if false {
             ZStack{
                 OnBoardingHomePage()
                 OnBoardingButton(
@@ -70,8 +70,8 @@ struct OnBoardingView : View {
                     }).padding(.vertical,8)
                 } else if viewModel.currentPage == 1 {
                     OnBoardingButton(text: "Get Started",onClick: {
-                        viewModel.onClick_GetStarted()
-                        router.GettingStarted()
+//                        viewModel.onClick_GetStarted()
+                        router.navigateToGettingStarted()
                     })
                         .padding(.vertical,8)
                 }

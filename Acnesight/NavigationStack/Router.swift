@@ -77,6 +77,7 @@ enum Route : Hashable, Equatable{
     case home
     case onboarding
     case capture
-    case result(ResultInfo)
-    case resultDetail
+//    case result(ResultInfo)
+//    case resultDetail
+    case gettingStarted
 }

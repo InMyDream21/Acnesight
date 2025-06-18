@@ -1,17 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "image 4.png",
+      "filename" : "samplePapule.jpg.jpg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "image 5.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "image 6.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

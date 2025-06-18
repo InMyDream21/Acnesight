@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "HomepageAsset.png",
+      "filename" : "home page asset.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "HomepageAsset 1.png",
+      "filename" : "home page asset 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "HomepageAsset 2.png",
+      "filename" : "home page asset 2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

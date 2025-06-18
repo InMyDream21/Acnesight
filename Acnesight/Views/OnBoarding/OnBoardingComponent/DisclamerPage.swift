@@ -90,23 +90,23 @@ struct DisclamerPage : View {
     }
 }
 
-struct JustifiedText: UIViewRepresentable {
-    var text: String
-    var fontSize : CGFloat = 16
-    
-    func makeUIView(context: Context) -> UITextView {
-        let textView = UITextView()
-        textView.text = text
-        textView.textAlignment = .justified
-        textView.font = .systemFont(ofSize: fontSize)
-        
-        return textView
-    }
-    
-    func updateUIView(_ uiView: UITextView, context: Context) {
-        
-    }
-}
+//struct JustifiedText: UIViewRepresentable {
+//    var text: String
+//    var fontSize : CGFloat = 16
+//    
+//    func makeUIView(context: Context) -> UITextView {
+//        let textView = UITextView()
+//        textView.text = text
+//        textView.textAlignment = .justified
+//        textView.font = .systemFont(ofSize: fontSize)
+//        
+//        return textView
+//    }
+//    
+//    func updateUIView(_ uiView: UITextView, context: Context) {
+//        
+//    }
+//}
 
 #Preview {
     DisclamerPage()
