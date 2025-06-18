@@ -11,7 +11,8 @@ import SwiftUI
 struct AcnesightApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+//            ContentView()
+            RouterView()
         }
     }
 }
