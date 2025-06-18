@@ -25,7 +25,7 @@ struct GettingStartedContent : View {
             .clipShape(Ellipse())
             .overlay(
                 Ellipse()
-                    .stroke(Color("SecondaryColor"), lineWidth: 14)
+                    .stroke(Color("GettingStartedBorder"), lineWidth: 14)
             )
             
             
@@ -40,6 +40,7 @@ struct GettingStartedContent : View {
                             .foregroundStyle(Color("OliveGreen"))
                         Text(txt)
                             .font(.footnote)
+                            .foregroundStyle(.black)
                     }
                 }
             }

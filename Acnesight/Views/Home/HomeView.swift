@@ -19,11 +19,14 @@ struct HomeView: View {
                 .resizable()
                 .scaledToFit()
                 .frame(width: 158,height: 157)
-                .padding(.bottom,10)
+                .padding(.bottom)
+            
             Image("HomepageAsset")
                 .resizable()
                 .scaledToFit()
-                .padding(.bottom,64)
+                .padding(.vertical,32)
+                
+            
             VStack(spacing:0 ){
                 VStack(){
                     HomeButton(

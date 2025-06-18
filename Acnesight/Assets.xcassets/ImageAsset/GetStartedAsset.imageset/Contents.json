@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "GetStartedAsset.png",
+      "filename" : "SelfieAsset.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "GetStartedAsset 2.png",
+      "filename" : "SelfieAsset 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "GetStartedAsset 1.png",
+      "filename" : "SelfieAsset 2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
