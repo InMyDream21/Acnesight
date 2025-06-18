@@ -34,7 +34,7 @@ class Router  {
         path.append(Route.capture)
     }
     
-    func naviagteToHome() {
+    func navigateToHome() {
         path.append(Route.home)
     }
     
@@ -42,8 +42,8 @@ class Router  {
         path.append(Route.onboarding)
     }
     
-    func navigateToResult(image : UIImage) {
-        path.append(Route.result(ResultInfo(image: image)))
+    func navigateToResult(_ image : UIImage, _ bboxes: [BoundingBox]) {
+        path.append(Route.result(ResultInfo(image: image, bboxes: bboxes)))
     }
     
     func navigateBack () {
@@ -55,8 +55,18 @@ class Router  {
     }
 }
 
-struct ResultInfo : Hashable,Equatable{
-    let image : UIImage
+struct ResultInfo : Hashable, Equatable {
+    let id = UUID()
+    let image : UIImage?
+    let bboxes: [BoundingBox]
+    
+    static func == (lhs: ResultInfo, rhs: ResultInfo) -> Bool {
+        return lhs.id == rhs.id
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
 }
 
 struct ResultDetailInfo : Hashable,Equatable {

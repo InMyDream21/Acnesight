@@ -11,7 +11,6 @@ struct RouterView: View {
     @State private var router = Router()
     @AppStorage("hasSeenOnboarding") var hasSeenOnboarding = false
     
-    
     private func routeView(for route:Route) -> some View {
         Group{
             switch route {
@@ -22,7 +21,7 @@ struct RouterView: View {
             case .capture:
                 VStack{}
             case .result(let resultInfo):
-                VStack{}
+                Result(data: resultInfo)
             case .resultDetail:
                 VStack{}
             }

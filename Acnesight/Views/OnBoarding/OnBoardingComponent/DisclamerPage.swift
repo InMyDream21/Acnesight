@@ -16,7 +16,6 @@ struct DisclaimerItem : Identifiable {
 
 
 struct DisclamerPage : View {
-    
     private let disclaimerItems : [DisclaimerItem] = [
         DisclaimerItem(
             iconName: "stethoscope",
