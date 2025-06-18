@@ -48,7 +48,7 @@ class Router  {
     
     func navigateToGettingStarted(){
         path.append(Route.gettingStarted)
-        hasSeenOnBoarding = true
+//        hasSeenOnBoarding = true
     }
     
     func navigateBack () {

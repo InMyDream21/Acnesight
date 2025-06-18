@@ -20,13 +20,14 @@ struct RouterView: View {
             case .onboarding:
                 OnBoardingView()
             case .capture:
-                VStack{}
+                VStack{}.onAppear{hasSeenOnboarding = false}
             case .result(let resultInfo):
                 VStack{}
             case .resultDetail:
                 VStack{}
             case .gettingStarted:
                 GettingStartedView()
+                    .toolbar(.hidden)
             }
         }
         .environment(router)

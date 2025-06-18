@@ -67,6 +67,9 @@ struct GettingStartedView: View {
         .padding(.horizontal,30)
         .frame(maxWidth: .infinity,maxHeight: .infinity)
         .background(Color("PrimaryColor"))
+        .onAppear{
+            router.hasSeenOnBoarding = true
+        }
     }
 }
 
