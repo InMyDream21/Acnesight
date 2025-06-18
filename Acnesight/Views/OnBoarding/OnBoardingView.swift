@@ -12,6 +12,10 @@ struct OnBoardingView : View {
     @AppStorage("hasSeenOnboarding") var hasSeenOnboarding = false
     @Environment(Router.self) var router
     @StateObject var viewModel : OnBoardingViewModel = OnBoardingViewModel()
+    @StateObject var pickerViewModel: ImagePickerViewModel = ImagePickerViewModel()
+    @State private var isShowingCamera = false
+    @State private var inputImage: UIImage? = nil
+    @State private var showCameraConfirmDialog = false
     
     init() {
         UIPageControl.appearance().currentPageIndicatorTintColor = UIColor(Color("SecondaryColor"))
@@ -25,16 +29,26 @@ struct OnBoardingView : View {
                     text: "TAKE A SELFIE",
                     onClick: {
                         hasSeenOnboarding = true
-                        router.navigateToCapture()
+                        isShowingCamera = true
                     },isSecondary: true)
                     .frame(maxHeight: .infinity,alignment: .bottom)
             }
             .padding(.horizontal,30)
             .frame(maxWidth: .infinity,maxHeight: .infinity)
             .background(Color("PrimaryColor"))
-            
-            
-            
+            .fullScreenCover(isPresented: $isShowingCamera) {
+                ImagePicker { image in
+                    inputImage = image
+                    isShowingCamera = false
+                    
+                    pickerViewModel.processImage(image) { boxes in
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            router.navigateToResult(image, boxes)
+                        }
+                    }
+                }
+                .ignoresSafeArea()
+            }
         } else {
             VStack {
                 TabView(selection:$viewModel.currentPage){
@@ -52,10 +66,8 @@ struct OnBoardingView : View {
                     OnBoardingButton(text: "Next",onClick: {
                         withAnimation(.easeInOut){
                             viewModel.onClick_Next()
-                        }
-                        
-                    })
-                        .padding(.vertical,8)
+                        }  
+                    }).padding(.vertical,8)
                 } else if viewModel.currentPage == 1 {
                     OnBoardingButton(text: "Get Started",onClick: {
 //                        viewModel.onClick_GetStarted()
@@ -66,7 +78,6 @@ struct OnBoardingView : View {
                 
             }
             .transition(.move(edge: .leading))
-//            .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading)))
             .padding(.horizontal,30)
         }
     }

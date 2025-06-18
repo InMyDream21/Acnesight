@@ -41,7 +41,7 @@ struct OnBoardingHomePage : View {
                             .foregroundStyle(Color("OliveGreen"))
                         Text(txt)
                             .font(.footnote)
-                        
+                            .foregroundStyle(.black)
                     }
                 }
             }

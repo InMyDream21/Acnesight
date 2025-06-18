@@ -11,7 +11,6 @@ struct RouterView: View {
     @State private var router = Router()
     @AppStorage("hasSeenOnboarding") var hasSeenOnboarding = false
     
-    
     private func routeView(for route:Route) -> some View {
         Group{
             switch route {
@@ -20,14 +19,11 @@ struct RouterView: View {
             case .onboarding:
                 OnBoardingView()
             case .capture:
-                VStack{}.onAppear{hasSeenOnboarding = false}
-//            case .result(let resultInfo):
-//                VStack{}
-//            case .resultDetail:
-//                VStack{}
-            case .gettingStarted:
-                GettingStartedView()
-                    .toolbar(.hidden)
+                VStack{}
+            case .result(let resultInfo):
+                Result(data: resultInfo)
+            case .resultDetail:
+                VStack{}
             }
         }
         .environment(router)
