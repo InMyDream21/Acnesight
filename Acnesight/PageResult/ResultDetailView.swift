@@ -87,9 +87,7 @@ struct ResultDetailView: View {
                             .foregroundColor(.gray)
                             .multilineTextAlignment(.center)
                         Button(action: {
-                            if let url = URL(string: "https://example.com") {
-                                UIApplication.shared.open(url)
-                            }
+                            // go to ResourcePage
                         }) {
                             Text("here")
                                 .font(.system(size: 10))
