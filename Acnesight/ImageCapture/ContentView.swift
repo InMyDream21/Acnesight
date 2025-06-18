@@ -10,68 +10,24 @@ import Vision
 import CoreML
 import UIKit
 
-struct BoundingBox: Identifiable {
-    let id = UUID()
-    let label: String
-    let confidence: Float
-    let rect: CGRect
-}
-
 struct ContentView: View {
     @State private var showCamera = false
     @State private var inputImage: UIImage?
     @State private var detectedBoxes: [BoundingBox] = []
+    @State private var showResult = false
     
     var body: some View {
-        ZStack {
-            if let image = inputImage {
-                GeometryReader { geo in
-                    let imageSize = image.size
-                    let geoSize = geo.size
-                    let scale = min(geoSize.width / imageSize.width, geoSize.height / imageSize.height)
-                    
-                    let displaySize = CGSize(width: imageSize.width * scale, height: imageSize.height * scale)
-                    let xOffset = (geoSize.width - displaySize.width) / 2
-                    let yOffset = (geoSize.height - displaySize.height) / 2
-                    
-                    ZStack {
-                        Image(uiImage: image)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: displaySize.width, height: displaySize.height)
-                            .position(x: geoSize.width / 2, y: geoSize.height / 2)
-                        
-                        ForEach(detectedBoxes) { box in
-                            let rect = box.rect
-                            
-                            let rectX = xOffset + rect.origin.x * displaySize.width
-                            let rectY = yOffset + (1 - rect.origin.y - rect.height) * displaySize.height
-                            let rectWidth = rect.width * displaySize.width
-                            let rectHeight = rect.height * displaySize.height
-                            
-                            ZStack(alignment: .topLeading) {
-                                Rectangle()
-                                    .stroke(Color.red, lineWidth: 2)
-                                    .frame(width: rectWidth, height: rectHeight)
-
-                                Text("\(box.label) \(Int(box.confidence * 100))%")
-                                    .font(.caption)
-                                    .padding(4)
-                                    .background(Color.black.opacity(0.7))
-                                    .foregroundColor(.white)
-                                    .cornerRadius(4)
-                                    .offset(x: 0, y: -20) // Move label above the box
-                            }
-                            .position(x: rectX + rectWidth / 2, y: rectY + rectHeight / 2)
-                        }
-                    }
-                }
-            } else {
-                Text("Take a photo to start")
-            }
-            
+        NavigationView {
             VStack {
-                Spacer()
+                if let image = inputImage {
+                    Image(uiImage: image)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height:300)
+                } else {
+                    Text("Take a photo to start")
+                }
+                
                 Button(action: {
                     showCamera = true
                 }) {
@@ -88,6 +44,15 @@ struct ContentView: View {
         .sheet(isPresented: $showCamera) {
             ImagePicker(image: $inputImage, onImagePicked: processImage)
         }
+        .background(
+            NavigationLink(
+                destination: ResultPage(image: inputImage, detections: detectedBoxes),
+                isActive: $showResult
+            ){
+                EmptyView()
+            }
+                .hidden()
+        )
     }
     
     func processImage(_ image: UIImage) {
@@ -114,6 +79,7 @@ struct ContentView: View {
                                 ))
                             }
                         }
+                        showResult = true
                     }
                 }
             }
@@ -148,3 +114,9 @@ struct ContentView: View {
         return letterboxedImage
     }
 }
+
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ContentView()
+//    }
+//}
