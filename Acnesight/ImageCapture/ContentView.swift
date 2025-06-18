@@ -18,27 +18,32 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView {
-            VStack {
-                if let image = inputImage {
-                    Image(uiImage: image)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(height:300)
-                } else {
-                    Text("Take a photo to start")
+            ZStack {
+                VStack {
+                    Spacer()
+                    
+                    if let image = inputImage {
+                        Image(uiImage: image)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height:300)
+                    } else {
+                        Text("Take a photo to start")
+                            .font(.title2)
+                    }
+                    
+                    Button(action: {
+                        showCamera = true
+                    }) {
+                        Image(systemName: "camera")
+                            .font(.largeTitle)
+                            .padding()
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .clipShape(Circle())
+                    }
+                    .padding(.bottom, 40)
                 }
-                
-                Button(action: {
-                    showCamera = true
-                }) {
-                    Image(systemName: "camera")
-                        .font(.largeTitle)
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .clipShape(Circle())
-                }
-                .padding()
             }
         }
         .sheet(isPresented: $showCamera) {
@@ -115,8 +120,8 @@ struct ContentView: View {
     }
 }
 
-//struct ContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ContentView()
-//    }
-//}
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
+}
