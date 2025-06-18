@@ -21,10 +21,10 @@ struct RouterView: View {
                 OnBoardingView()
             case .capture:
                 VStack{}.onAppear{hasSeenOnboarding = false}
-            case .result(let resultInfo):
-                VStack{}
-            case .resultDetail:
-                VStack{}
+//            case .result(let resultInfo):
+//                VStack{}
+//            case .resultDetail:
+//                VStack{}
             case .gettingStarted:
                 GettingStartedView()
                     .toolbar(.hidden)

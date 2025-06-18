@@ -42,10 +42,10 @@ class Router  {
         path.append(Route.onboarding)
     }
     
-    func navigateToResult(image : UIImage) {
-        path.append(Route.result(ResultInfo(image: image)))
-    }
-    
+//    func navigateToResult(image : UIImage) {
+//        path.append(Route.result(ResultInfo(image: image)))
+//    }
+//    
     func navigateToGettingStarted(){
         path.append(Route.gettingStarted)
 //        hasSeenOnBoarding = true
@@ -74,7 +74,7 @@ enum Route : Hashable, Equatable{
     case home
     case onboarding
     case capture
-    case result(ResultInfo)
-    case resultDetail
+//    case result(ResultInfo)
+//    case resultDetail
     case gettingStarted
 }
