@@ -91,4 +91,5 @@ struct ResourcePage: View {
 
 #Preview {
     ResourcePage()
+        .environment(Router())
 }

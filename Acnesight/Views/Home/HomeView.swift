@@ -62,13 +62,14 @@ struct HomeView: View {
         .fullScreenCover(isPresented: $cameraController.isShowingCamera) {
             ImagePicker { image in
                 inputImage = image
-                cameraController.isShowingCamera = false
                 
                 viewModel.processImage(image) { boxes in
                     if boxes.isEmpty {
                         router.navigateToResultNotDetected(image)
+                        cameraController.isShowingCamera = false
                     } else {
                         router.navigateToResult(image, boxes)
+                        cameraController.isShowingCamera = false
                     }
                 }
             }

@@ -78,11 +78,10 @@ struct GettingStartedView: View {
         .fullScreenCover(isPresented: $cameraController.isShowingCamera) {
             ImagePicker { image in
                 inputImage = image
-                cameraController.isShowingCamera = false
+                
                 pickerViewModel.processImage(image) { boxes in
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        router.navigateToResult(image, boxes)
-                    }
+                    router.navigateToResult(image, boxes)
+                    cameraController.isShowingCamera = false
                 }
             }
             .ignoresSafeArea()

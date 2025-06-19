@@ -81,6 +81,7 @@ struct ResultDetailView: View {
                         detailSection(title: "What you shouldn't do", text: shouldntText)
                         detailSection(title: "Common ways to treat", text: treatText)
                     }
+                    .padding(.horizontal, 2)
                     
                     // Footer
                     VStack(alignment: .center) {
@@ -114,7 +115,7 @@ struct ResultDetailView: View {
                 .foregroundColor(.black)
 
             Text(text)
-                .font(.body)
+                .font(.caption)
                 .foregroundColor(.black)
                 .frame(maxWidth: .infinity, alignment: .leading)
         }
@@ -122,8 +123,7 @@ struct ResultDetailView: View {
         .frame(maxWidth: 333, maxHeight: .infinity)
         .background(Color.white)
         .cornerRadius(16)
-        .shadow(color: Color.black.opacity(0.05), radius: 4, x: 0, y: 2)
-        .frame(maxWidth: .infinity, alignment: .center)
+        .shadow(radius: 2)
     }
     
     var sampleImage: String {
