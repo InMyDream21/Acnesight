@@ -125,7 +125,7 @@ struct ResultPage: View {
                     .font(.system(size: 20)).bold()
                     .padding()
                     .frame(maxWidth: 335, maxHeight: 58)
-                    .background(Color.red)
+                    .background(Color("PrimaryColor"))
                     .foregroundColor(.white)
                     .cornerRadius(12)
                 }

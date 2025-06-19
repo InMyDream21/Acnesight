@@ -52,7 +52,7 @@ struct ResultUndetected: View {
                 VStack(spacing: 16) {
                     Label("We're unable to detect your acne", systemImage: "exclamationmark.triangle")
                         .font(.headline)
-                        .foregroundColor(.red)
+                        .foregroundColor(Color("PrimaryColor"))
 
                     VStack(alignment: .leading, spacing: 8) {
                         Text("For better result, try getting closer to your acne area and keep the camera steady. Avoid blurry image and low lighting.")
@@ -71,7 +71,7 @@ struct ResultUndetected: View {
                         .padding()
                         .font(.system(size: 20)).bold()
                         .frame(maxWidth: 335, maxHeight: 58)
-                        .background(.red)
+                        .background(Color("PrimaryColor"))
                         .foregroundColor(.white)
                         .cornerRadius(12)
                     }
@@ -86,6 +86,6 @@ struct ResultUndetected: View {
     }
 }
 
-#Preview {
-    ResultUndetected(image: UIImage(named: "dummyy")!)
-}
+//#Preview {
+//    ResultUndetected(image: UIImage(named: "dummyy")!)
+//}
