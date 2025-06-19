@@ -45,15 +45,15 @@ enum AcneType: String, CaseIterable, Identifiable {
     var color: Color {
         switch self {
         case .blackhead:
-            return .orange
+            return Color("Blackhead")
         case .whitehead:
-            return .blue
+            return Color("Whitehead")
         case .papule:
-            return .green
+            return Color("Papule")
         case .pustule:
-            return .purple
+            return Color("Pustule")
         case .nodule:
-            return .red
+            return Color("Nodule")
         }
     }
 }

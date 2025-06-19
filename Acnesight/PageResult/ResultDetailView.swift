@@ -43,6 +43,7 @@ struct ResultDetailView: View {
                 }
                 .pickerStyle(SegmentedPickerStyle())
                 .padding(.horizontal)
+                .tint(Color("PrimaryColor"))
                 
                 Text("\(selectedType.rawValue)")
                     .font(.system(size: 17)).bold()
@@ -271,5 +272,6 @@ struct ResultDetailView: View {
 struct ResultDetailView_Previews: PreviewProvider {
     static var previews: some View {
         ResultDetailView(detectedTypes: [.papule, .pustule, .nodule, .blackhead, .whitehead])
+            .environment(Router())
     }
 }
