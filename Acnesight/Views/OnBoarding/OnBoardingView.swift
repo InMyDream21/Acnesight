@@ -13,9 +13,8 @@ struct OnBoardingView : View {
     @Environment(Router.self) var router
     @StateObject var viewModel : OnBoardingViewModel = OnBoardingViewModel()
     @StateObject var pickerViewModel: ImagePickerViewModel = ImagePickerViewModel()
-    @State private var isShowingCamera = false
+    @EnvironmentObject var cameraController: CameraController
     @State private var inputImage: UIImage? = nil
-    @State private var showCameraConfirmDialog = false
     
     init() {
         UIPageControl.appearance().currentPageIndicatorTintColor = UIColor(Color("SecondaryColor"))
@@ -29,26 +28,14 @@ struct OnBoardingView : View {
                     text: "TAKE A SELFIE",
                     onClick: {
                         hasSeenOnboarding = true
-                        isShowingCamera = true
+                        cameraController.isShowingCamera = true
                     },isSecondary: true)
                     .frame(maxHeight: .infinity,alignment: .bottom)
             }
             .padding(.horizontal,30)
             .frame(maxWidth: .infinity,maxHeight: .infinity)
             .background(Color("PrimaryColor"))
-            .fullScreenCover(isPresented: $isShowingCamera) {
-                ImagePicker { image in
-                    inputImage = image
-                    isShowingCamera = false
-                    
-                    pickerViewModel.processImage(image) { boxes in
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                            router.navigateToResult(image, boxes)
-                        }
-                    }
-                }
-                .ignoresSafeArea()
-            }
+            
         } else {
             VStack {
                 TabView(selection:$viewModel.currentPage){

@@ -8,11 +8,13 @@
 import SwiftUI
 
 struct ResourcePage: View {
+    @Environment(Router.self) var router
+    
     var body: some View {
         VStack(alignment: .leading) {
             VStack(alignment: .leading, spacing: 10) {
                 Button(action: {
-                    // back to ResultDetailView
+                    router.navigateBack()
                 }) {
                     Label("Acne Information", systemImage: "chevron.left")
                         .foregroundColor(.blue)

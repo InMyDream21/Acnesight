@@ -18,13 +18,22 @@ struct RouterView: View {
                 HomeView()
             case .onboarding:
                 OnBoardingView()
-            case .capture:
-                VStack{}
             case .result(let resultInfo):
-                Result(data: resultInfo)
-            case .resultDetail:
-                VStack{}
+                ResultPage(data: resultInfo)
+                    .navigationBarBackButtonHidden(true)
+            case .resultDetail(let acneTypes):
+                ResultDetailView(detectedTypes: acneTypes)
+                    .navigationBarBackButtonHidden(true)
+            case .resource:
+                ResourcePage()
+                    .navigationBarBackButtonHidden(true)
+            case .resultNotDetected(let image):
+                ResultUndetected(image: image)
+                    .navigationBarBackButtonHidden(true)
+            case .gettingStarted:
+                GettingStartedView()
             }
+        
         }
         .environment(router)
     }

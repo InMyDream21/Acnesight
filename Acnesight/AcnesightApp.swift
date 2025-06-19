@@ -9,10 +9,13 @@ import SwiftUI
 
 @main
 struct AcnesightApp: App {
+    @StateObject var cameraController = CameraController()
+    
     var body: some Scene {
         WindowGroup {
 //            ContentView()
             RouterView()
+                .environmentObject(cameraController)
         }
     }
 }

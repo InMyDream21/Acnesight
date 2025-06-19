@@ -9,20 +9,18 @@ import SwiftUI
 
 struct ResultUndetected: View {
     let image: UIImage?
+    @Environment(Router.self) var router
+    @EnvironmentObject var cameraController: CameraController
 
     var body: some View {
         VStack(spacing: 0) {
-            
             if let image = image {
                 ZStack(alignment: .topLeading) {
-                    
                     GeometryReader { geo in
                         let imageSize = image.size
                         let geoSize = geo.size
                         let scale = min(geoSize.width / imageSize.width, geoSize.height / imageSize.height)
                         let displaySize = CGSize(width: imageSize.width * scale, height: imageSize.height * scale)
-                        let xOffset = (geoSize.width - displaySize.width) / 2
-                        let yOffset = (geoSize.height - displaySize.height) / 2
                         
                         ZStack {
                             Image(uiImage: image)
@@ -35,7 +33,7 @@ struct ResultUndetected: View {
                     .frame(maxHeight: .infinity)
                     
                     Button(action: {
-                        // return to home page
+                        router.returnToRoot()
                     }) {
                         Image(systemName: "xmark")
                             .font(.system(size: 15, weight: .bold))
@@ -52,7 +50,7 @@ struct ResultUndetected: View {
                 
                 // Modal section
                 VStack(spacing: 16) {
-                    Text("􀇾 We're unable to detect your acne")
+                    Label("We're unable to detect your acne", systemImage: "exclamationmark.triangle")
                         .font(.headline)
                         .foregroundColor(.red)
 
@@ -64,17 +62,11 @@ struct ResultUndetected: View {
                     .padding()
                     
                     HStack {
-//                        Button("Cancel") {
-//                            // return home page
-//                        }
-//                        .padding()
-//                        .frame(maxWidth: .infinity)
-//                        .background(.red)
-//                        .foregroundColor(.white)
-//                        .cornerRadius(12)
-                        
-                        Button("􀌞 Retake") {
-                            // Finish action
+                        Button(action: {
+                            cameraController.isShowingCamera = true
+                            router.returnToRoot()
+                        }) {
+                            Label("Retake", systemImage: "camera")
                         }
                         .padding()
                         .font(.system(size: 20)).bold()

@@ -7,12 +7,10 @@
 
 import SwiftUI
 
-
-
 struct HomeView: View {
     @Environment(Router.self) var router
     @State private var inputImage: UIImage?
-    @State private var isShowingCamera = false
+    @EnvironmentObject var cameraController: CameraController
     @StateObject var viewModel: ImagePickerViewModel = ImagePickerViewModel()
     
     var body: some View {
@@ -35,7 +33,7 @@ struct HomeView: View {
                 VStack(){
                     HomeButton(
                         text:"START",
-                        onClick: {isShowingCamera = true},
+                        onClick: {cameraController.isShowingCamera = true},
                         isSecondary: true
                     )
                         .cornerRadius(50)
@@ -61,13 +59,15 @@ struct HomeView: View {
                 .background(Color("PrimaryColor"))
             }
         }
-        .fullScreenCover(isPresented: $isShowingCamera) {
+        .fullScreenCover(isPresented: $cameraController.isShowingCamera) {
             ImagePicker { image in
                 inputImage = image
-                isShowingCamera = false
+                cameraController.isShowingCamera = false
                 
                 viewModel.processImage(image) { boxes in
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    if boxes.isEmpty {
+                        router.navigateToResultNotDetected(image)
+                    } else {
                         router.navigateToResult(image, boxes)
                     }
                 }

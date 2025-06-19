@@ -10,13 +10,6 @@ import UIKit
 import CoreML
 import Vision
 
-struct BoundingBox: Identifiable {
-    let id = UUID()
-    let label: String
-    let confidence: Float
-    let rect: CGRect
-}
-
 class ImagePickerViewModel: ObservableObject {
     func processImage(_ image: UIImage, completion: @escaping ([BoundingBox]) -> Void) {
         guard let letterboxed = letterboxImage(image),

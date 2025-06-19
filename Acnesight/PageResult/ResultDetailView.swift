@@ -10,7 +10,8 @@ import SwiftUI
 struct ResultDetailView: View {
     let detectedTypes: [AcneType]
     @State private var selectedType: AcneType
-
+    @Environment(Router.self) var router
+    
     // Initialize selectedType with the first detected acne type
     init(detectedTypes: [AcneType]) {
         self.detectedTypes = detectedTypes
@@ -22,7 +23,7 @@ struct ResultDetailView: View {
             VStack(alignment: .leading, spacing: 20) {
                 VStack(alignment: .leading, spacing: 15) {
                     Button(action: {
-                        // back to ResultPage
+                        router.navigateBack()
                     }) {
                         Label("Result", systemImage: "chevron.left")
                             .foregroundColor(.blue)
@@ -87,7 +88,7 @@ struct ResultDetailView: View {
                             .foregroundColor(.gray)
                             .multilineTextAlignment(.center)
                         Button(action: {
-                            // go to ResourcePage
+                            router.navigateToResource()
                         }) {
                             Text("here")
                                 .font(.system(size: 10))
@@ -109,10 +110,11 @@ struct ResultDetailView: View {
             Text(title)
                 .font(.headline)
                 .frame(maxWidth: .infinity, alignment: .leading)
+                .foregroundColor(.black)
 
             Text(text)
                 .font(.body)
-                .foregroundColor(.primary)
+                .foregroundColor(.black)
                 .frame(maxWidth: .infinity, alignment: .leading)
         }
         .padding()

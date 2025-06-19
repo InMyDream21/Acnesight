@@ -30,10 +30,6 @@ class Router  {
         atGettingStarted = true
     }
     
-    func navigateToCapture() {
-        path.append(Route.capture)
-    }
-    
     func navigateToHome() {
         path.append(Route.home)
     }
@@ -44,6 +40,22 @@ class Router  {
     
     func navigateToResult(_ image : UIImage, _ bboxes: [BoundingBox]) {
         path.append(Route.result(ResultInfo(image: image, bboxes: bboxes)))
+    }
+    
+    func navigateToResultDetail(_ acneTypes: [AcneType]) {
+        path.append(Route.resultDetail(acneTypes))
+    }
+    
+    func navigateToResource() {
+        path.append(Route.resource)
+    }
+    
+    func navigateToResultNotDetected(_ image: UIImage) {
+        path.append(Route.resultNotDetected(image))
+    }
+    
+    func navigateToGettingStarted() {
+        path.append(Route.gettingStarted)
     }
     
     func navigateBack () {
@@ -76,8 +88,9 @@ struct ResultDetailInfo : Hashable,Equatable {
 enum Route : Hashable, Equatable{
     case home
     case onboarding
-    case capture
-//    case result(ResultInfo)
-//    case resultDetail
+    case resultNotDetected(UIImage)
+    case result(ResultInfo)
+    case resultDetail([AcneType])
+    case resource
     case gettingStarted
 }

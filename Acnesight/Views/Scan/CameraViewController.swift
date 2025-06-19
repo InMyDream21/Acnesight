@@ -47,6 +47,9 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate {
         previewLayer.frame = view.bounds.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 150, right: 0))
         view.layer.addSublayer(previewLayer)
 
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(focusAndExposeTap(_:)))
+        view.addGestureRecognizer(tapGesture)
+
         DispatchQueue.global(qos: .userInitiated).async {
             self.session.startRunning()
         }
@@ -300,16 +303,12 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate {
         guard let session = session else { return }
 
         session.beginConfiguration()
-
-        // Remove existing input
         if let currentInput = session.inputs.first as? AVCaptureDeviceInput {
             session.removeInput(currentInput)
 
-            // Determine new position
             let newPosition: AVCaptureDevice.Position = currentInput.device.position == .back ? .front : .back
             currentCameraPosition = newPosition
 
-            // Add new input
             if let newDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: newPosition),
                let newInput = try? AVCaptureDeviceInput(device: newDevice),
                session.canAddInput(newInput) {
@@ -318,5 +317,45 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate {
         }
 
         session.commitConfiguration()
+    }
+    
+    @objc private func focusAndExposeTap(_ gesture: UITapGestureRecognizer) {
+        let location = gesture.location(in: view)
+        let focusIndicator = UIView(frame: CGRect(x: 0, y: 0, width: 80, height: 80))
+        focusIndicator.center = location
+        focusIndicator.layer.borderColor = UIColor.yellow.cgColor
+        focusIndicator.layer.borderWidth = 2
+        focusIndicator.layer.cornerRadius = 8
+        focusIndicator.backgroundColor = UIColor.clear
+        view.addSubview(focusIndicator)
+
+        UIView.animate(withDuration: 0.3, delay: 0.5, options: [], animations: {
+            focusIndicator.alpha = 0.0
+            focusIndicator.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+        }) { _ in
+            focusIndicator.removeFromSuperview()
+        }
+
+        let focusPoint = CGPoint(x: location.y / view.bounds.size.height, y: 1.0 - (location.x / view.bounds.size.width))
+
+        guard let device = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: currentCameraPosition) else { return }
+
+        do {
+            try device.lockForConfiguration()
+
+            if device.isFocusPointOfInterestSupported {
+                device.focusPointOfInterest = focusPoint
+                device.focusMode = .autoFocus
+            }
+
+            if device.isExposurePointOfInterestSupported {
+                device.exposurePointOfInterest = focusPoint
+                device.exposureMode = .autoExpose
+            }
+
+            device.unlockForConfiguration()
+        } catch {
+            print("Focus configuration error: \(error)")
+        }
     }
 }

@@ -8,15 +8,15 @@
 import SwiftUI
 
 struct ResultPage: View {
-    let image: UIImage?
-    let detections: [BoundingBox]
+    let data: ResultInfo
+    @Environment(Router.self) var router
 
     @State private var selectedType: AcneType? = nil
     @State private var showDetails = false
 
     var body: some View {
         VStack(spacing: 0) {
-            if let image = image {
+            if let image = data.image {
                 ZStack(alignment: .topLeading) {
                     GeometryReader { geo in
                         let imageSize = image.size
@@ -33,7 +33,7 @@ struct ResultPage: View {
                                 .frame(width: geoSize.width, height: geoSize.height)
                                 .position(x: geoSize.width / 2, y: geoSize.height / 2)
 
-                            ForEach(detections) { box in
+                            ForEach(data.bboxes) {box in
                                 if let type = box.type {
                                     let rect = box.rect
                                     let rectX = xOffset + rect.origin.x * displaySize.width
@@ -62,14 +62,13 @@ struct ResultPage: View {
                     .frame(maxHeight: .infinity)
                 }
 
-                // Modal section
                 VStack(spacing: 16) {
                     Text("You’re likely to have these in your face:")
                         .font(.headline)
                         .padding(.trailing, 50)
 
                     HStack(spacing: 16) {
-                        ForEach(Array(Set(detections.compactMap { $0.type })), id: \.self) { type in
+                        ForEach(Array(Set(data.bboxes.compactMap { $0.type })), id: \.self) { type in
                             Button {
                                 selectedType = type
                                 showDetails = true
@@ -93,14 +92,18 @@ struct ResultPage: View {
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Get to know your acne")
                             .bold()
+                            .foregroundColor(.black)
 
                         Text("Learn the difference between each type of acne and what you can do about it")
                             .font(.caption)
+                            .foregroundColor(.black)
 
                         HStack {
                             Spacer()
                             Button("See all result") {
                                 // Navigate to full results
+                                let types = Array(Set(data.bboxes.compactMap{ $0.type }))
+                                router.navigateToResultDetail(types)
                             }
                             .font(.caption)
                             .foregroundColor(.orange)
@@ -117,7 +120,7 @@ struct ResultPage: View {
                         .multilineTextAlignment(.center)
 
                     Button("Finish") {
-                        // Finish action
+                        router.returnToRoot()
                     }
                     .font(.system(size: 20)).bold()
                     .padding()
@@ -131,37 +134,7 @@ struct ResultPage: View {
                 .cornerRadius(20)
             }
         }
-        .sheet(isPresented: $showDetails) {
-//            ResultDetailView(detectedTypes: detectedTypes)
-        }
         .edgesIgnoringSafeArea(.bottom)
     }
 }
 
-struct ResultPage_Previews: PreviewProvider {
-    static var previews: some View {
-        let sampleImage = UIImage(named: "dummyy")!
-        let sampleDetections = [
-            BoundingBox(
-                label: "pustule",
-                confidence: 0.87,
-                rect: CGRect(x: 0.01, y: 0.3, width: 0.2, height: 0.1)
-            ),
-            BoundingBox(
-                label: "nodule",
-                confidence: 0.92,
-                rect: CGRect(x: 0.9, y: 0.45, width: 0.2, height: 0.1)
-            ),
-            BoundingBox(
-                label: "blackhead",
-                confidence: 0.92,
-                rect: CGRect(x: 0.45, y: 0.4, width: 0.15, height: 0.2)
-            )
-        ]
-        return ResultPage(image: sampleImage, detections: sampleDetections)
-    }
-}
-
-//#Preview {
-//    ResultPage(image: UIImage(systemName: "photo")!, detections: [])
-//}

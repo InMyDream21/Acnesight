@@ -55,13 +55,17 @@ struct GettingStartedContent : View {
 
 struct GettingStartedView: View {
     @Environment(Router.self) var router
+    @StateObject var pickerViewModel: ImagePickerViewModel = ImagePickerViewModel()
+    @EnvironmentObject var cameraController: CameraController
+    @State private var inputImage: UIImage? = nil
+    
     var body: some View {
         ZStack{
             GettingStartedContent()
             OnBoardingButton(
                 text: "TAKE A SELFIE",
                 onClick: {
-                    router.navigateToCapture()
+                    cameraController.isShowingCamera = true
                 },isSecondary: true)
             .frame(maxHeight: .infinity,alignment: .bottom)
         }
@@ -70,6 +74,18 @@ struct GettingStartedView: View {
         .background(Color("PrimaryColor"))
         .onAppear{
             router.hasSeenOnBoarding = true
+        }
+        .fullScreenCover(isPresented: $cameraController.isShowingCamera) {
+            ImagePicker { image in
+                inputImage = image
+                cameraController.isShowingCamera = false
+                pickerViewModel.processImage(image) { boxes in
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        router.navigateToResult(image, boxes)
+                    }
+                }
+            }
+            .ignoresSafeArea()
         }
     }
 }
